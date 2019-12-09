@@ -7,7 +7,7 @@ import { bindActionCreators } from 'redux';
 import CourseList from './CourseList';
 import { Redirect } from 'react-router-dom';
 import Spinner from './../common/Spinner';
-import { toast, ToastType } from 'react-toastify';
+import { toast } from 'react-toastify';
 
 class CoursesPage extends React.Component {
     state = {
@@ -30,13 +30,15 @@ class CoursesPage extends React.Component {
         }
     }
 
-    handleDeleteCourse = course => {
+    handleDeleteCourse = async course => {
         toast.success('Course Deleted !');
-        this.props.actions.deleteCourse(course).catch(error => {
+        try {
+            this.props.actions.deleteCourse(course);
+        } catch (error) {
             toast.error('Delete failed. ' + error.message, {
                 autoClose: false,
             });
-        });
+        }
     };
 
     render() {
